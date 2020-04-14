@@ -17,10 +17,10 @@ class QiniuPackage
 
     public function __construct()
     {
-        $this->accessKey = '9MpH8FzPlcoNXbG7jBoCMCbV4eYB6b1ifUHZG7f7';
-        $this->secretKey = 'Ug4FxAaRdVhkgDEGbAA3GwBqKE_dFm89TguNr0wo';
-        $this->bucket = 'tclzhinengshuo';
-        $this->domain = 'http://tcl.qiniu.net717.cn';
+        $this->accessKey = '';  //七牛云AK
+        $this->secretKey = '';//七牛云SK
+        $this->bucket = '';   //七牛云存储空间
+        $this->domain = '';   //七牛云存储域名
         $this->auth = new Auth($this->accessKey, $this->secretKey);
         $this->UploadManager = new UploadManager();
         $this->BucketManager = new BucketManager($this->auth);
@@ -56,6 +56,10 @@ class QiniuPackage
      */
     public function getImageUrl($key)
     {
+        $file_info = $this->getImageStat($key);
+        if (!$file_info){
+            return '图片已删除或不存在';
+        }
         return $this->domain ."/".$key;
     }
 
@@ -68,5 +72,16 @@ class QiniuPackage
     {
         $status = $this->BucketManager->delete($this->bucket,$key);
         return !$status ? true : false;
+    }
+
+    /**
+     * 获取图片元信息
+     * @param $key
+     * @return mixed
+     */
+    public function getImageStat($key)
+    {
+        $info = $this->BucketManager->stat($this->bucket,$key);
+        return $info[0];
     }
 }
