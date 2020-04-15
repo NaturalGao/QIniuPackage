@@ -58,7 +58,7 @@ class QiniuPackage
     {
         $file_info = $this->getImageStat($key);
         if (!$file_info){
-            return '图片已删除或不存在';
+            return false;
         }
         return $this->domain ."/".$key;
     }

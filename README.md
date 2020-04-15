@@ -32,7 +32,7 @@ $Qiniu->uploadImage($key,$filePath);
 ```
 2. 获取图片
 ```php
-//如果图片不存在，提示“图片不存在或已删除”，存在返回地址
+//如果图片不存在，返回false，存在返回地址
 $Qiniu->getImageUrl($key);
 ```
 3. 删除图片
